@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:body>
+	<h1>Usuarios</h1>
+	<h:form>
+		<fieldset>
+			<legend>Cadastro de Usuario</legend>
+			<h:panelGrid columns="2">
+				<h:outputLabel value="E-mail:" for="email" />
+				<h:inputText id="email" value="#{usuarioBean.usuarioEntity.email}"/>
+				<h:outputLabel value="Usuario:" for="usuario" />
+				<h:inputText id="usuario" value="#{usuarioBean.usuarioEntity.usuario}"/>
+				<h:outputLabel value="Senha:" for="senha" />
+				<h:inputText id="senha" value="#{usuarioBean.usuarioEntity.senha}"/>
+				<h:commandButton value="Gravar"  action="#{usuarioBean.gravar}"/> 
+			</h:panelGrid>
+		</fieldset>
+	</h:form>
+</h:body>
+</html>

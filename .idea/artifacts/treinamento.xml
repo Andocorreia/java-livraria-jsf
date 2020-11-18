@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="treinamento">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>java-livraria-jsf</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="java-livraria-jsf-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="java-livraria-jsf:war exploded" />
+    </root>
+  </artifact>
+</component>

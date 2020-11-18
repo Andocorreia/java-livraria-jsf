@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:body>
+	<h1>Livros</h1>
+	<h:form>
+		<fieldset>
+			<legend>Cadastro do Livro</legend>
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Titulo:" for="titulo" />
+				<h:inputText id="titulo" value="#{livroBean.livroEntity.titulo}"/>
+
+				<h:outputLabel value="Resumo:" for="summary" />
+				<h:inputText id="summary" value="#{livroBean.livroEntity.summary}"/>
+
+				<h:outputLabel value="Data de Lançamento:" for="dataLancamento" />
+				<h:inputText id="dataLancamento" value="#{livroBean.livroEntity.dataLancamento}"/>
+
+				<h:outputLabel value="Paginas:" for="paginas" />
+				<h:inputText id="paginas" value="#{livroBean.livroEntity.paginas}"/>
+
+				<h:outputLabel value="Valor:" for="valorUnitario" />
+				<h:inputText id="valorUnitario" value="#{livroBean.livroEntity.valorUnitario}"/>
+
+
+				<h:commandButton value="Gravar"  action="#{livroBean.gravar}"/>
+			</h:panelGrid>
+		</fieldset>
+	</h:form>
+</h:body>
+
+</html>

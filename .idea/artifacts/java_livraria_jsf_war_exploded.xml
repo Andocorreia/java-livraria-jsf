@@ -34,11 +34,10 @@
           <element id="library" level="project" name="Maven: org.jvnet.staxex:stax-ex:1.8" />
           <element id="library" level="project" name="Maven: com.sun.xml.fastinfoset:FastInfoset:1.2.15" />
           <element id="library" level="project" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final" />
-          <element id="library" level="project" name="Maven: org.hibernate:hibernate-agroal:5.4.23.Final" />
-          <element id="library" level="project" name="Maven: io.agroal:agroal-pool:1.9" />
-          <element id="library" level="project" name="Maven: io.agroal:agroal-api:1.9" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.18" />
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.6.1" />
+          <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
+          <element id="library" level="project" name="Maven: org.primefaces:primefaces:7.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">

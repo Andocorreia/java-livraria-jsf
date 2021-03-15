@@ -3,6 +3,7 @@ package br.com.livraria.model;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -13,13 +14,14 @@ public class LivroModel implements Model {
 	private Integer codigo;
 	private String titulo;
 	private String summary;
+	@Column(columnDefinition="DATE")
 	private LocalDate dataLancamento;
 	private Integer paginas;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private final Collection<AutorModel> autor = new ArrayList<>();
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private EditoraModel editora;
 
 	private BigDecimal valorUnitario;
@@ -48,8 +50,8 @@ public class LivroModel implements Model {
 		this.summary = summary;
 	}
 
-	public LocalDate getDataLancamento() {
-		return dataLancamento;
+	public String getDataLancamento() {
+		return dataLancamento.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 	}
 
 	public void setDataLancamento(final LocalDate dataLancamento) {
@@ -87,5 +89,4 @@ public class LivroModel implements Model {
 	public void setValorUnitario(final BigDecimal valorUnitario) {
 		this.valorUnitario = valorUnitario;
 	}
-
 }

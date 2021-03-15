@@ -1,23 +1,74 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:f="http://java.sun.com/jsf/core"
+>
 
-<h:body>
-	<h1>Usuarios</h1>
-	<h:form>
-		<fieldset>
-			<legend>Cadastro de Usuario</legend>
-			<h:panelGrid columns="2">
-				<h:outputLabel value="E-mail:" for="email" />
-				<h:inputText id="email" value="#{usuarioBean.usuarioEntity.email}"/>
-				<h:outputLabel value="Usuario:" for="usuario" />
-				<h:inputText id="usuario" value="#{usuarioBean.usuarioEntity.usuario}"/>
-				<h:outputLabel value="Senha:" for="senha" />
-				<h:inputText id="senha" value="#{usuarioBean.usuarioEntity.senha}"/>
-				<h:commandButton value="Gravar"  action="#{usuarioBean.gravar}"/> 
-			</h:panelGrid>
-		</fieldset>
-	</h:form>
-</h:body>
+	<ui:composition template="_template.xhtml">
+		<ui:define name="titulo">Usuários</ui:define>
+		<ui:define name="conteudo">
+			<h:form>
+				<fieldset>
+					<legend>Cadastro de Usuário</legend>
+					<h:inputHidden id="codigo" value="#{usuarioBean.usuarioEntity.codigoUsuario}"/>
+					<h:panelGrid columns="2">
+						<h:outputLabel value="E-mail:" for="email" />
+						<h:inputText id="email" value="#{usuarioBean.usuarioEntity.email}"/>
+						<h:outputLabel value="Usuário:" for="usuario" />
+						<h:inputText id="usuario" value="#{usuarioBean.usuarioEntity.usuario}"/>
+						<h:outputLabel value="Senha:" for="senha" />
+						<h:inputSecret id="senha" value="#{usuarioBean.usuarioEntity.senha}"/>
+						<h:outputLabel value="Confirmação de Senha:" for="confirmacaoSenha" />
+						<h:inputSecret id="confirmacaoSenha" value="#{usuarioBean.usuarioEntity.confirmacaoSenha}"/>
+						<h:commandButton value="Gravar"  action="#{usuarioBean.gravar}"/>
+					</h:panelGrid>
+					<h:messages />
+				</fieldset>
+			</h:form>
+			<h:form>
+				<h:dataTable value="#{usuarioBean.todosUsuarios}" var="usuario"
+							 styleClass="tabela_generica"
+							 headerClass="tabela_generica_header"
+							 columnClasses="tabela_generica_coluna_principal,tabela_generica_coluna_secundaria,
+											tabela_generica_coluna_principal,tabela_generica_coluna_secundaria,
+											tabela_generica_coluna_imagem,tabela_generica_coluna_imagem">
+
+
+					<h:column>
+						<f:facet name="header"><h:outputText value="Código"/></f:facet>
+						<h:outputText value="#{usuario.codigo}"/>
+					</h:column>
+					<h:column>
+						<f:facet name="header"><h:outputText value="Usuário"/></f:facet>
+						<h:outputText value="#{usuario.usuario}"/>
+					</h:column>
+					<h:column>
+						<f:facet name="header"><h:outputText value="E-Mail"/></f:facet>
+						<h:outputText value="#{usuario.email}"/>
+					</h:column>
+					<h:column>
+						<f:facet name="header"><h:outputText value="Bloqueado"/></f:facet>
+						<h:outputText value="#{usuario.bloqueado}"/>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Alterar"/></f:facet>
+						<h:commandLink styleClass="tabela_generica_link" action="#{usuarioBean.alterar(usuario)}">
+							<h:graphicImage library="img" name="alterar.png" height="25px"/>
+						</h:commandLink>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Excluir"/></f:facet>
+						<h:commandLink styleClass="tabela_generica_link" action="#{usuarioBean.remover(usuario)}">
+							<h:graphicImage  library="img" name="excluir.png" height="25px"/>
+						</h:commandLink>
+					</h:column>
+				</h:dataTable>
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
 </html>

@@ -5,6 +5,7 @@ public class UsuarioEntity {
 	private Integer codigoUsuario;
 	private String usuario;
 	private String senha;
+	private String confirmacaoSenha;
 	private String email;
 
 	public Integer getCodigoUsuario() {
@@ -39,4 +40,11 @@ public class UsuarioEntity {
 		this.email = email;
 	}
 
+	public String getConfirmacaoSenha() {
+		return confirmacaoSenha;
+	}
+
+	public void setConfirmacaoSenha(String confirmacaoSenha) {
+		this.confirmacaoSenha = confirmacaoSenha;
+	}
 }

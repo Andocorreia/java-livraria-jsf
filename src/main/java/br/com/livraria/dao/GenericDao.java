@@ -23,11 +23,11 @@ public class GenericDao<T> {
 
 	}
 
-	public void remove(final Model model) {
+	public void remove(final Class<T> classe, final Integer id) {
 
 		em.getTransaction().begin();
 
-		em.remove(model);
+		em.remove(this.find(classe, id));
 
 		em.getTransaction().commit();
 
@@ -59,11 +59,15 @@ public class GenericDao<T> {
 
 	public T buscaPorId(final Class<T> classe, final Integer id) {
 
-		final T data = em.find(classe, id);
+		final T data = this.find(classe, id);
 
 		em.close();
 
 		return data;
 
+	}
+
+	private T find(final Class<T> classe, final Integer id) {
+		return em.find(classe, id);
 	}
 }

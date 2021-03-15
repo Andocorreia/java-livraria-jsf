@@ -1,0 +1,43 @@
+.template_imagem_header{
+    height: 90px;
+    position: absolute;
+}
+.template_titulo {
+    align-self: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.template_cabecalho {
+    display: flex;
+    height: 100px;
+}
+
+.tabela_generica {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+}
+
+.tabela_generica_header {
+    border: 1px solid black;
+    text-align: center;
+    font: 15px Arial, sans-serif;
+    font-weight: bold;
+    color: Snow;
+    background: darkred;
+}
+
+.tabela_generica_coluna_principal,
+.tabela_generica_coluna_secundaria,
+.tabela_generica_coluna_imagem {
+    border: 1px solid black;
+    font: 12px Arial, sans-serif;
+    min-width: 100px;
+    align-self: center;
+}
+
+.tabela_generica_coluna_imagem {
+    text-align: center;
+}

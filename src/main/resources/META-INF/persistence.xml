@@ -14,7 +14,7 @@
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost/java-livraria-jsf?serverTimezone=UTC"/>
+                      value="jdbc:mysql://localhost/java-livraria-jsf?useTimezone=true&amp;serverTimezone=America/Sao_Paulo"/>
             <property name="javax.persistence.jdbc.user" value="admin"/>
             <property name="javax.persistence.jdbc.password" value=""/>
 

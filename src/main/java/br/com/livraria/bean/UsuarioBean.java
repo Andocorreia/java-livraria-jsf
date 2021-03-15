@@ -15,16 +15,17 @@ public class UsuarioBean {
 	private UsuarioEntity usuarioEntity = new UsuarioEntity();
 
 	public void gravar() {
-		if(!validacoes()) {
+		if (!validacoes()) {
 			final GenericDao<UsuarioModel> dao = new GenericDao<>();
 			final UsuarioModel model = new UsuarioModel();
 			model.setEmail(usuarioEntity.getEmail());
 			model.setUsuario(usuarioEntity.getUsuario());
 			model.setSenha(usuarioEntity.getSenha());
 			model.setBloqueado(false);
-			if(this.usuarioEntity.getCodigoUsuario() == null){
+			if (this.usuarioEntity.getCodigoUsuario() == null) {
 				dao.adiciona(model);
-			}else {
+			}
+			else {
 				model.setCodigo(usuarioEntity.getCodigoUsuario());
 				dao.atualiza(model);
 			}
@@ -41,11 +42,11 @@ public class UsuarioBean {
 		return usuarioEntity;
 	}
 
-	public void remover(UsuarioModel usuario){
+	public void remover(final UsuarioModel usuario) {
 		new GenericDao<UsuarioModel>().remove(UsuarioModel.class, usuario.getCodigo());
 	}
 
-	public void alterar(UsuarioModel usuario){
+	public void alterar(final UsuarioModel usuario) {
 		this.usuarioEntity.setCodigoUsuario(usuario.getCodigo());
 		this.usuarioEntity.setEmail(usuario.getEmail());
 		this.usuarioEntity.setSenha(usuario.getSenha());
@@ -55,27 +56,25 @@ public class UsuarioBean {
 	private Boolean validacoes() {
 
 		Boolean erro = false;
-
-		if(this.usuarioEntity.getEmail().isEmpty()) {
+		if (this.usuarioEntity.getEmail().isEmpty()) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Erro-Campo E-mail Obrigatório"));
 			erro = true;
 		}
 
-		if(this.usuarioEntity.getUsuario().isEmpty()) {
+		if (this.usuarioEntity.getUsuario().isEmpty()) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Erro-Campo Usuário Obrigatório"));
 			erro = true;
 		}
 
-		if(this.usuarioEntity.getSenha().isEmpty()) {
+		if (this.usuarioEntity.getSenha().isEmpty()) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Erro-Campo Senhas obrigatório"));
 			erro = true;
 		}
 
-		if(!this.usuarioEntity.getSenha().equals(this.usuarioEntity.getConfirmacaoSenha())) {
+		if (!this.usuarioEntity.getSenha().equals(this.usuarioEntity.getConfirmacaoSenha())) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Erro-Senhas não conferem"));
 			erro = true;
 		}
-
 		return erro;
 	}
 }

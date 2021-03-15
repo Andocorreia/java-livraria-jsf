@@ -15,15 +15,21 @@ public class LivroEntity {
 	private BigDecimal valorUnitario;
 	private EditoraEntity editora;
 
-	public Collection<AutorEntity> getAutor() {return autor;}
+	public Collection<AutorEntity> getAutor() {
+		return autor;
+	}
 
-	public void setAutor(final AutorEntity autor) {this.autor.add(autor);}
+	public void setAutor(final AutorEntity autor) {
+		this.autor.add(autor);
+	}
 
 	public Integer getCodigo() {
+
 		return codigo;
 	}
 
 	public void setCodigo(final Integer codigo) {
+
 		this.codigo = codigo;
 	}
 
@@ -31,23 +37,37 @@ public class LivroEntity {
 		return editora;
 	}
 
-	public void setEditora(final EditoraEntity editora) {this.editora = editora;}
+	public void setEditora(final EditoraEntity editora) {
+		this.editora = editora;
+	}
 
-	public String getTitulo() {return titulo;}
+	public String getTitulo() {
+		return titulo;
+	}
 
 	public void setTitulo(final String titulo) {
 		this.titulo = titulo;
 	}
 
-	public String getSummary() {return summary;}
+	public String getSummary() {
+		return summary;
+	}
 
-	public void setSummary(final String summary) {this.summary = summary;}
+	public void setSummary(final String summary) {
+		this.summary = summary;
+	}
 
-	public String getDataLancamento() {return dataLancamento;}
+	public String getDataLancamento() {
+		return dataLancamento;
+	}
 
-	public void setDataLancamento(final String dataLancamento) {this.dataLancamento = dataLancamento;}
+	public void setDataLancamento(final String dataLancamento) {
+		this.dataLancamento = dataLancamento;
+	}
 
-	public Integer getPaginas() {return paginas;}
+	public Integer getPaginas() {
+		return paginas;
+	}
 
 	public void setPaginas(final Integer paginas) {
 		this.paginas = paginas;

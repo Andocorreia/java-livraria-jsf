@@ -2,7 +2,6 @@ package br.com.livraria.bean;
 
 import br.com.livraria.bean.entity.EditoraEntity;
 import br.com.livraria.dao.GenericDao;
-import br.com.livraria.model.AutorModel;
 import br.com.livraria.model.EditoraModel;
 
 import javax.faces.application.FacesMessage;
@@ -17,15 +16,17 @@ public class EditoraBean {
 
 	public void gravar() {
 
-		if(this.editoraEntity.getNome().isEmpty()){
+		if (this.editoraEntity.getNome().isEmpty()) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Erro-Campo Nome Obrigatório"));
-		}else {
+		}
+		else {
 			final GenericDao<EditoraModel> dao = new GenericDao<>();
 			final EditoraModel model = new EditoraModel();
 			model.setNome(editoraEntity.getNome());
-			if(editoraEntity.getCodigo() == null){
+			if (editoraEntity.getCodigo() == null) {
 				dao.adiciona(model);
-			} else{
+			}
+			else {
 				model.setCodigo(editoraEntity.getCodigo());
 				dao.atualiza(model);
 			}
@@ -42,11 +43,11 @@ public class EditoraBean {
 		return editoraEntity;
 	}
 
-	public void remover(EditoraModel editora){
+	public void remover(final EditoraModel editora) {
 		new GenericDao<EditoraModel>().remove(EditoraModel.class, editora.getCodigo());
 	}
 
-	public void alterar(EditoraModel editora){
+	public void alterar(final EditoraModel editora) {
 		this.editoraEntity.setCodigo(editora.getCodigo());
 		this.editoraEntity.setNome(editora.getNome());
 	}

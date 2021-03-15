@@ -44,7 +44,7 @@ public class UsuarioEntity {
 		return confirmacaoSenha;
 	}
 
-	public void setConfirmacaoSenha(String confirmacaoSenha) {
+	public void setConfirmacaoSenha(final String confirmacaoSenha) {
 		this.confirmacaoSenha = confirmacaoSenha;
 	}
 }

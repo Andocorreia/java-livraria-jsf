@@ -27,12 +27,13 @@ public class LivroBean {
 	private DateTimeFormatter dateFormater = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
 	public void gravar() {
-
 		if (!validacao()) {
 			final GenericDao<LivroModel> dao = new GenericDao<>();
 			final LivroModel model = new LivroModel();
 
-			model.setAutor(new GenericDao<AutorModel>().buscaPorId(AutorModel.class, this.autorId));
+			livroEntity.getAutor().stream().forEach(autor -> {
+				model.setAutor(new GenericDao<AutorModel>().buscaPorId(AutorModel.class, autor.getCodigo()));
+			});
 			model.setEditora(getEditoraModel());
 			model.setDataLancamento(convertStringToDate(livroEntity.getDataLancamento()));
 			model.setPaginas(livroEntity.getPaginas());
@@ -52,6 +53,7 @@ public class LivroBean {
 	}
 
 	public void editarLivro(final LivroModel livro) {
+		this.livroEntity = new LivroEntity();
 		this.livroEntity.setCodigo(livro.getCodigo());
 		this.livroEntity.setSummary(livro.getSummary());
 		this.livroEntity.setTitulo(livro.getTitulo());
@@ -60,11 +62,10 @@ public class LivroBean {
 		this.livroEntity.setDataLancamento(livro.getDataLancamento());
 
 		livro.getAutor().stream().forEach(autor -> {
-			this.autorId = autor.getCodigo();
-			AutorEntity autorEntity = new AutorEntity();
-			autorEntity.setCodigo(autor.getCodigo());
-			autorEntity.setNome(autor.getNome());
-			this.livroEntity.setAutor(autorEntity);
+			AutorEntity entity = new AutorEntity();
+			entity.setCodigo(autor.getCodigo());
+			entity.setNome(autor.getNome());
+			this.livroEntity.setAutor(entity);
 		});
 
 		this.editoraId = livro.getEditora().getCodigo();
@@ -72,6 +73,16 @@ public class LivroBean {
 		editoraEntity.setCodigo(livro.getEditora().getCodigo());
 		editoraEntity.setNome(livro.getEditora().getNome());
 		this.livroEntity.setEditora(editoraEntity);
+	}
+
+	public void selecionarAutor() {
+		if (this.livroEntity.getAutor().stream().filter(entity -> entity.getCodigo() == this.autorId).count() == 0) {
+			AutorModel model = new GenericDao<AutorModel>().buscaPorId(AutorModel.class, this.autorId);
+			AutorEntity entity = new AutorEntity();
+			entity.setCodigo(model.getCodigo());
+			entity.setNome(model.getNome());
+			this.livroEntity.setAutor(entity);
+		}
 	}
 
 	private EditoraModel getEditoraModel() {
@@ -100,6 +111,11 @@ public class LivroBean {
 
 	public LivroEntity getLivroEntity() {
 		return livroEntity;
+	}
+
+	public void removerAutor(final AutorEntity autor) {
+		this.livroEntity.getAutor().removeIf(entity -> entity.getCodigo().equals(autor.getCodigo()));
+
 	}
 
 	public Collection<AutorEntity> getListaAutores() {

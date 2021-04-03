@@ -23,11 +23,6 @@ public class LoginBean {
 		return "login?faces-redirect=true";
 	}
 
-	public String logout(){
-		content.getExternalContext().getSessionMap().remove("usuarioLogado");
-		return "login?daces-redirect=true";
-	}
-
 	public LoginEntity getLoginEntity() {
 		return loginEntity;
 	}
@@ -35,4 +30,5 @@ public class LoginBean {
 	public void setLoginEntity(final LoginEntity loginEntity) {
 		this.loginEntity = loginEntity;
 	}
+
 }

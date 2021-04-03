@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ public class LivroModel implements Model {
 	private String titulo;
 	private String summary;
 	@Column(columnDefinition = "DATE")
-	private LocalDate dataLancamento;
+	private Date dataLancamento;
 	private Integer paginas;
 
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -60,11 +61,11 @@ public class LivroModel implements Model {
 		this.summary = summary;
 	}
 
-	public String getDataLancamento() {
-		return dataLancamento.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+	public Date getDataLancamento() {
+		return dataLancamento;
 	}
 
-	public void setDataLancamento(final LocalDate dataLancamento) {
+	public void setDataLancamento(final Date dataLancamento) {
 		this.dataLancamento = dataLancamento;
 	}
 

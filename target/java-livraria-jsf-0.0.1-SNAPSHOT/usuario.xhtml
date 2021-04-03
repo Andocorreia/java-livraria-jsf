@@ -4,72 +4,64 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
 >
-
+	<h:head/>
 	<ui:composition template="_template.xhtml">
-		<ui:define name="titulo">Usuários</ui:define>
+		<ui:define name="titulo"><p:outputPanel>Usuários</p:outputPanel></ui:define>
 		<ui:define name="conteudo">
+			<p:messages globalOnly="true"/>
 			<h:form>
-				<fieldset>
-					<legend>Cadastro de Usuário</legend>
-					<h:inputHidden id="codigo" value="#{usuarioBean.usuarioEntity.codigoUsuario}"/>
-					<h:panelGrid columns="2">
-						<h:outputLabel value="E-mail:" for="email" />
-						<h:inputText id="email" value="#{usuarioBean.usuarioEntity.email}">
-							<f:passThroughAttribute name="type" value="email" />
-						</h:inputText>
-						<h:outputLabel value="Usuário:" for="usuario" />
-						<h:inputText id="usuario" value="#{usuarioBean.usuarioEntity.usuario}"/>
-						<h:outputLabel value="Senha:" for="senha" />
-						<h:inputSecret id="senha" value="#{usuarioBean.usuarioEntity.senha}"/>
-						<h:outputLabel value="Confirmação de Senha:" for="confirmacaoSenha" />
-						<h:inputSecret id="confirmacaoSenha" value="#{usuarioBean.usuarioEntity.confirmacaoSenha}"/>
-						<h:commandButton value="Gravar"  action="#{usuarioBean.gravar}"/>
-					</h:panelGrid>
-					<h:messages />
-				</fieldset>
+				<p:fieldset legend="Cadastro de Usuário">
+					<p:inputText id="codigo" value="#{usuarioBean.usuarioEntity.codigoUsuario}" type="hidden"/>
+					<p:panelGrid columns="2">
+						<p:outputLabel value="E-mail:" for="email" />
+						<p:inputText id="email" value="#{usuarioBean.usuarioEntity.email}" required="true" validatorMessage="E-mail Inválido">
+							<f:attribute name="type" value="email" />
+							<f:validateRegex pattern=".+@.+"/>
+						</p:inputText>
+						<p:outputLabel value="Usuário:" for="usuario" />
+						<p:inputText id="usuario" value="#{usuarioBean.usuarioEntity.usuario}" required="true"/>
+						<p:outputLabel for="senha" styleClass="p-col-fixed" style="width:100px" value="Senha:"/>
+						<p:password id="senha" value="#{usuarioBean.usuarioEntity.senha}" match="confirmacaoSenha"
+						label="Senha" required="true" validatorMessage="Senhas não conferem"/>
+						<p:outputLabel for="confirmacaoSenha" styleClass="p-col-fixed" style="width:100px" value="Confirmação de Senha"/>
+						<p:password id="confirmacaoSenha" value="#{usuarioBean.usuarioEntity.confirmacaoSenha}" label="Confirmação de Senha" required="true"/>
+					</p:panelGrid>
+					<p:message for="email" id="messageMail"/>
+					<p:message for="usuario" id="messageUsuario"/>
+					<p:message for="senha" id="messageSenha"/>
+					<p:message for="confirmacaoSenha" id="messageConfirmacaoSenha"/>
+					<p:commandButton value="Gravar"  action="#{usuarioBean.gravar}" process="@form" update="@form :formTabela"
+									 styleClass="botaoPadrao"/>
+				</p:fieldset>
 			</h:form>
-			<h:form>
-				<h:dataTable value="#{usuarioBean.todosUsuarios}" var="usuario"
-							 styleClass="tabela_generica"
-							 headerClass="tabela_generica_header"
-							 columnClasses="tabela_generica_coluna_principal,tabela_generica_coluna_secundaria,
-											tabela_generica_coluna_principal,tabela_generica_coluna_secundaria,
-											tabela_generica_coluna_imagem,tabela_generica_coluna_imagem">
-
-
-					<h:column>
-						<f:facet name="header"><h:outputText value="Código"/></f:facet>
+			<h:form id="formTabela">
+				<p:dataTable id="tabelaUsuario" value="#{usuarioBean.todosUsuarios}" var="usuario">
+					<p:column headerText="Código">
 						<h:outputText value="#{usuario.codigo}"/>
-					</h:column>
-					<h:column>
-						<f:facet name="header"><h:outputText value="Usuário"/></f:facet>
+					</p:column>
+
+					<p:column headerText="Usuário">
 						<h:outputText value="#{usuario.usuario}"/>
-					</h:column>
-					<h:column>
-						<f:facet name="header"><h:outputText value="E-Mail"/></f:facet>
+					</p:column>
+					<p:column headerText="E-Mail">
 						<h:outputText value="#{usuario.email}"/>
-					</h:column>
-					<h:column>
-						<f:facet name="header"><h:outputText value="Bloqueado"/></f:facet>
+					</p:column>
+					<p:column headerText="Bloqueado">
 						<h:outputText value="#{usuario.bloqueado}"/>
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Alterar"/></f:facet>
+					</p:column>
+					<p:column headerText="Alterar">
 						<h:commandLink styleClass="tabela_generica_link" action="#{usuarioBean.alterar(usuario)}">
 							<h:graphicImage library="img" name="alterar.png" height="25px"/>
 						</h:commandLink>
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Excluir"/></f:facet>
+					</p:column>
+					<p:column headerText="Excluir">
 						<h:commandLink styleClass="tabela_generica_link" action="#{usuarioBean.remover(usuario)}">
 							<h:graphicImage  library="img" name="excluir.png" height="25px"/>
 						</h:commandLink>
-					</h:column>
-				</h:dataTable>
-
+					</p:column>
+				</p:dataTable>
 			</h:form>
 		</ui:define>
 	</ui:composition>

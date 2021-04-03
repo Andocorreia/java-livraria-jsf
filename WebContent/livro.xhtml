@@ -4,130 +4,101 @@
 	  xmlns:h="http://xmlns.jcp.org/jsf/html"
 	  xmlns:f="http://xmlns.jcp.org/jsf/core"
 	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
 >
 	<h:head/>
+	<h:head/>
 	<ui:composition template="_template.xhtml">
-		<ui:define name="titulo">Livros</ui:define>
+		<ui:define name="titulo"><p:outputPanel>Livros</p:outputPanel></ui:define>
 		<ui:define name="conteudo">
-			<h:form>
-				<fieldset>
-					<legend>Cadastro do Livro</legend>
-					<h:inputHidden id="codigo" value="#{livroBean.livroEntity.codigo}"/>
+			<p:messages globalOnly="true"/>
+			<h:form id="cadastroForm">
+				<p:fieldset legend="Cadastro do Livro">
+					<p:inputText id="codigo" value="#{livroBean.livroEntity.codigo}" type="hidden"/>
 					<h:panelGrid columns="2">
-						<h:outputLabel value="Titulo:" for="titulo"/>
-						<h:inputText id="titulo" value="#{livroBean.livroEntity.titulo}"/>
-
-						<h:outputLabel value="Resumo:" for="summary"/>
-						<h:inputText id="summary" value="#{livroBean.livroEntity.summary}"/>
-
-						<h:outputLabel value="Lançamento(dd-MM-yyyy):" for="dataLancamento"/>
-						<h:inputText id="dataLancamento" value="#{livroBean.livroEntity.dataLancamento}">
-							<f:convertDateTime pattern="dd-MM-yyyy" />
-						</h:inputText>
-
-						<h:outputLabel value="Paginas:" for="paginas"/>
-						<h:inputText id="paginas" value="#{livroBean.livroEntity.paginas}"/>
-
-						<h:outputLabel value="Valor:" for="valorUnitario"/>
-						<h:inputText id="valorUnitario" value="#{livroBean.livroEntity.valorUnitario}"/>
+						<p:outputLabel value="Titulo:" for="titulo"/>
+						<p:inputText id="titulo" value="#{livroBean.livroEntity.titulo}" required="true"/>
+						<p:outputLabel value="Resumo:" for="summary"/>
+						<p:inputText id="summary" value="#{livroBean.livroEntity.summary}" required="true"/>
+						<p:outputLabel value="Lançamento:" for="dataLancamento"/>
+						<p:calendar id="dataLancamento" value="#{livroBean.livroEntity.dataLancamento}" showOn="button" required="true" pattern="dd/MM/yyyy"/>
+						<p:outputLabel value="Paginas:" for="paginas"/>
+						<p:inputNumber id="paginas" value="#{livroBean.livroEntity.paginas}" modifyValueOnWheel="false" />
+						<p:outputLabel value="Valor:" for="valorUnitario"/>
+						<p:inputNumber id="valorUnitario" value="#{livroBean.livroEntity.valorUnitario}" modifyValueOnWheel="false" required="true" />
 					</h:panelGrid>
-					<h:messages/>
-				</fieldset>
-				<fieldset>
-					<legend>Dados do Autor</legend>
-					<h:outputLabel value="Autor:" for="comboboxAutor"/>
-					<h:selectOneMenu id="comboboxAutor" value="#{livroBean.autorId}">
+					<p:message for="titulo"/>
+					<p:message for="summary"/>
+					<p:message for="dataLancamento"/>
+					<p:message for="paginas"/>
+					<p:message for="valorUnitario"/>
+				</p:fieldset>
+
+				<p:fieldset legend="Dados do Autor">
+					<p:outputLabel value="Autor:" for="comboboxAutor"/>
+					<p:selectOneMenu id="comboboxAutor" value="#{livroBean.autorId}">
 						<f:selectItems value="#{livroBean.listaAutores}" var="autor" itemLabel="#{autor.nome}"
 									   itemValue="#{autor.codigo}"/>
-					</h:selectOneMenu>
-					<h:commandButton value="Selecionar Autor" action="#{livroBean.selecionarAutor}"/>
-					<br/>
-					<h:dataTable id="tableAutor" value="#{livroBean.livroEntity.autor}" var="autor"
-								 styleClass="tabela_generica"
-								 headerClass="tabela_generica_header"
-								 columnClasses="tabela_generica_coluna_principal,
-							 tabela_generica_coluna_secundaria,tabela_generica_coluna_imagem">
-						<h:column>
-							<f:facet name="header"><h:outputText value="Código"/></f:facet>
+					</p:selectOneMenu>
+					<p:commandButton value="Selecionar Autor" action="#{livroBean.selecionarAutor}" process="@this comboboxAutor" update="tableAutor"
+									 styleClass="botaoPadrao"/>
+
+					<p:dataTable id="tableAutor" value="#{livroBean.livroEntity.autor}" var="autor">
+						<p:column headerText="Código">
 							<h:outputText value="#{autor.codigo}"/>
-						</h:column>
-						<h:column>
-							<f:facet name="header"><h:outputText value="Nome"/></f:facet>
+						</p:column>
+						<p:column headerText="Nome">
 							<h:outputText value="#{autor.nome}"/>
-						</h:column>
-
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Excluir"/></f:facet>
-							<h:commandLink styleClass="tabela_generica_link" action="#{livroBean.removerAutor(autor)}">
-<!--								<f:ajax execute="tableAutor" render="tableAutor"/>-->
-								<h:graphicImage  library="img" name="excluir.png" height="25px"/>
+						</p:column>
+						<p:column headerText="Excluir">
+							<h:commandLink styleClass="tabela_generica_link" action="#{livroBean.removerAutor(autor)}" update="tableAutor" process="@this">
+								<h:graphicImage library="img" name="excluir.png" height="25px"/>
 							</h:commandLink>
-						</h:column>
+						</p:column>
+					</p:dataTable>
+				</p:fieldset>
 
-					</h:dataTable>
-
-				</fieldset>
-				<br/>
-				<fieldset>
-					<legend>Dados da Editora</legend>
-					<h:outputLabel value="Editora:" for="editora"></h:outputLabel>
-					<h:selectOneRadio id="editora" value="#{livroBean.editoraId}">
-						<f:selectItems value="#{livroBean.listaEditoras}" var="editora" itemLabel="#{editora.nome}"
-									   itemValue="#{editora.codigo}"/>
-					</h:selectOneRadio>
-				</fieldset>
-				<h:commandButton value="Gravar" action="#{livroBean.gravar}"/>
-				<h:dataTable value="#{livroBean.listaLivros}" var="livro"
-							 styleClass="tabela_generica"
-							 headerClass="tabela_generica_header"
-							 columnClasses="tabela_generica_coluna_principal,
-							 tabela_generica_coluna_secundaria,tabela_generica_coluna_principal,
-							 tabela_generica_coluna_secundaria,tabela_generica_coluna_principal,
-							 tabela_generica_coluna_secundaria,tabela_generica_coluna_principal,
-							 tabela_generica_coluna_imagem,tabela_generica_coluna_imagem">
-
-					<h:column>
-						<f:facet name="header"><h:outputText value="Código"/></f:facet>
+				<p:fieldset legend="Dados da Editora">
+					<p:outputLabel value="Editora:" for="editora"/>
+					<p:selectOneRadio id="editora" value="#{livroBean.editoraId}" unselectable="true">
+						<f:selectItems value="#{livroBean.listaEditoras}" var="editora" itemLabel="#{editora.nome}" itemValue="#{editora.codigo}"/>
+					</p:selectOneRadio>
+				</p:fieldset>
+				<p:commandButton value="Gravar" action="#{livroBean.gravar}"  process="@form" update="@form :formTabelaLivros:tabelaLivros"
+								 styleClass="botaoPadrao"/>
+			</h:form>
+			<h:form id="formTabelaLivros">
+				<p:dataTable id="tabelaLivros" value="#{livroBean.listaLivros}" var="livro">
+					<p:column headerText="Código">
 						<h:outputText value="#{livro.codigo}"/>
-					</h:column>
-					<h:column>
-						<f:facet name="header"><h:outputText value="Titulo"/></f:facet>
+					</p:column>
+					<p:column headerText="Titulo">
 						<h:outputText value="#{livro.titulo}"/>
-					</h:column>
-					<h:column>
-						<f:facet name="header"><h:outputText value="Data de Lançamento"/></f:facet>
+					</p:column>
+					<p:column headerText="Data de Lançamento">
 						<h:outputText value="#{livro.dataLancamento}"/>
-					</h:column>
-					<h:column>
-						<f:facet name="header"><h:outputText value="Páginas"/></f:facet>
+					</p:column>
+					<p:column headerText="Páginas">
 						<h:outputText value="#{livro.paginas}"/>
-					</h:column>
-					<h:column>
-						<f:facet name="header"><h:outputText value="Resumo"/></f:facet>
+					</p:column>
+					<p:column headerText="Resumo">
 						<h:outputText value="#{livro.summary}"/>
-					</h:column>
-					<h:column>
-						<f:facet name="header"><h:outputText value="Valor"/></f:facet>
+					</p:column>
+					<p:column headerText="Valor">
 						<h:outputText value="#{livro.valorUnitario}"/>
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Alterar"/></f:facet>
+					</p:column>
+					<p:column headerText="Alterar">
 						<h:commandLink styleClass="tabela_generica_link" action="#{livroBean.editarLivro(livro)}">
-							<f:ajax execute="@form" render="@form"/>
 							<h:graphicImage library="img" name="alterar.png" height="25px"/>
 						</h:commandLink>
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Excluir"/></f:facet>
-							<h:commandLink styleClass="tabela_generica_link" action="#{livroBean.removerLivro(livro)}">
-								<f:ajax execute="@form" render="@form"/>
-								<h:graphicImage  library="img" name="excluir.png" height="25px"/>
-							</h:commandLink>
-					</h:column>
-				</h:dataTable>
+					</p:column>
+					<p:column headerText="Excluir">
+						<h:commandLink styleClass="tabela_generica_link" action="#{livroBean.removerLivro(livro)}">
+							<h:graphicImage  library="img" name="excluir.png" height="25px"/>
+						</h:commandLink>
+					</p:column>
+
+				</p:dataTable>
 			</h:form>
 		</ui:define>
 	</ui:composition>

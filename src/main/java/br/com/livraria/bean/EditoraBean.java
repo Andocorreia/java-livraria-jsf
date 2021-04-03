@@ -17,7 +17,7 @@ public class EditoraBean {
 	public void gravar() {
 
 		if (this.editoraEntity.getNome().isEmpty()) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Erro-Campo Nome Obrigatório"));
+			FacesContext.getCurrentInstance().addMessage(this.editoraEntity.getNome(), new FacesMessage("Erro-Campo Nome Obrigatório"));
 		}
 		else {
 			final GenericDao<EditoraModel> dao = new GenericDao<>();

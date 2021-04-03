@@ -3,53 +3,46 @@
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:h="http://xmlns.jcp.org/jsf/html"
 	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	  xmlns:f="http://xmlns.jcp.org/jsf/core">
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:p="http://primefaces.org/ui">
 
+	<h:head/>
 	<ui:composition template="_template.xhtml">
-		<ui:define name="titulo">Editoras</ui:define>
+		<ui:define name="titulo"><p:outputPanel>Editoras</p:outputPanel></ui:define>
 		<ui:define name="conteudo">
+			<p:messages globalOnly="true"/>
 			<h:form>
-				<fieldset>
-					<legend>Cadastro de Editora</legend>
-					<h:inputHidden id="codigo" value="#{editoraBean.editoraEntity.codigo}"/>
-					<h:panelGrid columns="2">
-						<h:outputLabel value="Nome:" for="nome"/>
-						<h:inputText id="nome" value="#{editoraBean.editoraEntity.nome}"/>
-						<h:commandButton value="Gravar" action="#{editoraBean.gravar}"/>
-					</h:panelGrid>
-					<h:messages />
-				</fieldset>
-			</h:form>
-			<h:form>
-				<h:dataTable value="#{editoraBean.todasEditoras}" var="editora"
-							 styleClass="tabela_generica"
-							 headerClass="tabela_generica_header"
-							 columnClasses="tabela_generica_coluna_principal,tabela_generica_coluna_secundaria,
-											tabela_generica_coluna_imagem,tabela_generica_coluna_imagem">
+				<p:fieldset legend="Cadastro de Editora">
+					<p:inputText id="codigo" value="#{editoraBean.editoraEntity.codigo}" type="hidden"/>
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Nome:" for="nome"/>
+						<p:inputText id="nome" value="#{editoraBean.editoraEntity.nome}" required="true"/>
+					</p:panelGrid>
+					<p:message for="nome"/>
 
-					<h:column>
-						<f:facet name="header"><h:outputText value="Código"/></f:facet>
+					<p:commandButton value="Gravar" action="#{editoraBean.gravar}" process="@form" update="@form :formTabela"
+									 styleClass="botaoPadrao"/>
+				</p:fieldset>
+			</h:form>
+			<h:form id="formTabela">
+				<p:dataTable id="tabelaEditora" value="#{editoraBean.todasEditoras}" var="editora">
+					<p:column headerText="Código">
 						<h:outputText value="#{editora.codigo}"/>
-					</h:column>
-					<h:column>
-						<f:facet name="header"><h:outputText value="Nome"/></f:facet>
+					</p:column>
+					<p:column headerText="Nome">
 						<h:outputText value="#{editora.nome}"/>
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Alterar"/></f:facet>
+					</p:column>
+					<p:column headerText="Alterar">
 						<h:commandLink styleClass="tabela_generica_link" action="#{editoraBean.alterar(editora)}">
 							<h:graphicImage library="img" name="alterar.png" height="25px"/>
 						</h:commandLink>
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Excluir"/></f:facet>
+					</p:column>
+					<p:column headerText="Excluir">
 						<h:commandLink styleClass="tabela_generica_link" action="#{editoraBean.remover(editora)}">
 							<h:graphicImage  library="img" name="excluir.png" height="25px"/>
 						</h:commandLink>
-					</h:column>
-				</h:dataTable>
+					</p:column>
+				</p:dataTable>
 			</h:form>
 		</ui:define>
 	</ui:composition>

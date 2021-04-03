@@ -3,54 +3,45 @@
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	  xmlns:f="http://xmlns.jcp.org/jsf/core">
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:p="http://primefaces.org/ui">
 
+	<h:head/>
 	<ui:composition template="_template.xhtml">
-		<ui:define name="titulo">Autores</ui:define>
+		<ui:define name="titulo"><p:outputPanel>Autores</p:outputPanel></ui:define>
 		<ui:define name="conteudo">
+			<p:messages globalOnly="true"/>
 			<h:form>
-				<fieldset>
-					<legend>Cadastro de Autor</legend>
-					<h:inputHidden id="codigo" value="#{autorBean.autorEntity.codigo}"/>
-					<h:panelGrid columns="2">
-						<h:outputLabel value="Nome" for="nome"/>
-						<h:inputText id="nome" value="#{autorBean.autorEntity.nome}"/>
-						<h:commandButton value="Gravar" action="#{autorBean.gravar}"/>
-					</h:panelGrid>
-					<h:messages />
-				</fieldset>
+				<p:fieldset legend="Cadastro de Autor">
+					<p:inputText id="codigo" value="#{autorBean.autorEntity.codigo}" type="hidden"/>
+					<p:panelGrid columns="2">
+						<p:outputLabel value="Nome:" for="nome"/>
+						<p:inputText id="nome" value="#{autorBean.autorEntity.nome}" required="true"/>
+					</p:panelGrid>
+					<p:message for="nome" id="messageNome"/>
+					<p:commandButton value="Gravar" action="#{autorBean.gravar}" process="@form" update="@form :formTabela"
+									 styleClass="botaoPadrao"/>
+				</p:fieldset>
 			</h:form>
-			<h:form>
-				<h:dataTable value="#{autorBean.todosAutores}" var="autor"
-							 styleClass="tabela_generica"
-							 headerClass="tabela_generica_header"
-							 columnClasses="tabela_generica_coluna_principal,tabela_generica_coluna_secundaria,
-											tabela_generica_coluna_imagem,tabela_generica_coluna_imagem">
-
-					<h:column>
-						<f:facet name="header"><h:outputText value="Código"/></f:facet>
+			<h:form id="formTabela">
+				<p:dataTable  value="#{autorBean.todosAutores}" var="autor">
+					<p:column headerText="Código">
 						<h:outputText value="#{autor.codigo}"/>
-					</h:column>
-					<h:column>
-						<f:facet name="header"><h:outputText value="Nome"/></f:facet>
+					</p:column>
+					<p:column headerText="Nome">
 						<h:outputText value="#{autor.nome}"/>
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Alterar"/></f:facet>
+					</p:column>
+					<p:column headerText="Alterar">
 						<h:commandLink styleClass="tabela_generica_link" action="#{autorBean.alterar(autor)}">
 							<h:graphicImage library="img" name="alterar.png" height="25px"/>
 						</h:commandLink>
-					</h:column>
-					<h:column>
-						<f:facet name="header">
-							<h:outputText value="Excluir"/></f:facet>
+					</p:column>
+					<p:column headerText="Excluir">
 						<h:commandLink styleClass="tabela_generica_link" action="#{autorBean.remover(autor)}">
 							<h:graphicImage  library="img" name="excluir.png" height="25px"/>
 						</h:commandLink>
-					</h:column>
-				</h:dataTable>
-
+					</p:column>
+				</p:dataTable>
 			</h:form>
 		</ui:define>
 	</ui:composition>

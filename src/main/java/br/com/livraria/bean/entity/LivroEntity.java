@@ -3,6 +3,7 @@ package br.com.livraria.bean.entity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 public class LivroEntity {
 
@@ -10,7 +11,7 @@ public class LivroEntity {
 	private String titulo;
 	private Integer codigo;
 	private String summary;
-	private String dataLancamento;
+	private Date dataLancamento;
 	private Integer paginas;
 	private BigDecimal valorUnitario;
 	private EditoraEntity editora;
@@ -57,11 +58,11 @@ public class LivroEntity {
 		this.summary = summary;
 	}
 
-	public String getDataLancamento() {
+	public Date getDataLancamento() {
 		return dataLancamento;
 	}
 
-	public void setDataLancamento(final String dataLancamento) {
+	public void setDataLancamento(final Date dataLancamento) {
 		this.dataLancamento = dataLancamento;
 	}
 

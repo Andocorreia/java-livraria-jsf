@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class LivroBean {
 				model.setAutor(new GenericDao<AutorModel>().buscaPorId(AutorModel.class, autor.getCodigo()));
 			});
 			model.setEditora(getEditoraModel());
-			model.setDataLancamento(convertStringToDate(livroEntity.getDataLancamento()));
+			model.setDataLancamento(livroEntity.getDataLancamento());
 			model.setPaginas(livroEntity.getPaginas());
 			model.setSummary(livroEntity.getSummary());
 			model.setTitulo(livroEntity.getTitulo());
@@ -159,7 +160,7 @@ public class LivroBean {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Erro-Campo Resumo Obrigatório"));
 			erro = true;
 		}
-		if (this.livroEntity.getDataLancamento().isEmpty()) {
+		if (this.livroEntity.getDataLancamento().toString().isEmpty()) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Erro-Campo Data de Lançamento Obrigatório"));
 			erro = true;
 		}

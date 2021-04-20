@@ -1,36 +1,44 @@
 package br.com.livraria.bean;
 
-import br.com.livraria.bean.entity.AutorEntity;
-import br.com.livraria.dao.GenericDao;
-import br.com.livraria.model.AutorModel;
-
-
-import javax.faces.application.FacesMessage;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
+import java.io.Serializable;
 import java.util.Collection;
 
-@ManagedBean
-public class AutorBean {
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import br.com.livraria.bean.entity.AutorEntity;
+import br.com.livraria.dao.AutorDao;
+import br.com.livraria.model.AutorModel;
+
+@Named
+@ViewScoped
+public class AutorBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private AutorEntity autorEntity = new AutorEntity();
+
+	@Inject
+	private AutorDao autorDao;
 
 	public void gravar() {
 		if (this.autorEntity.getNome().isEmpty()) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Erro-Campo Nome Obrigatório"));
 		}
 		else {
-			final GenericDao<AutorModel> dao = new GenericDao<>();
+
 			final AutorModel model = new AutorModel();
 			model.setNome(autorEntity.getNome());
 
 			if (this.autorEntity.getCodigo() == null) {
-				dao.adiciona(model);
+				autorDao.adiciona(model);
 			}
 			else {
 				model.setCodigo(this.autorEntity.getCodigo());
-				dao.atualiza(model);
+				autorDao.atualiza(model);
 			}
 
 			autorEntity = new AutorEntity();
@@ -38,8 +46,7 @@ public class AutorBean {
 	}
 
 	public Collection<AutorModel> getTodosAutores() {
-		final GenericDao<AutorModel> dao = new GenericDao<>();
-		return dao.listaTodos(AutorModel.class);
+		return autorDao.listaTodos(AutorModel.class);
 	}
 
 	public AutorEntity getAutorEntity() {
@@ -47,7 +54,7 @@ public class AutorBean {
 	}
 
 	public void remover(final AutorModel autor) {
-		new GenericDao<AutorModel>().remove(AutorModel.class, autor.getCodigo());
+		autorDao.remove(autor.getCodigo());
 	}
 
 	public void alterar(final AutorModel autor) {

@@ -1,16 +1,24 @@
 package br.com.livraria.dao;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
 
 import br.com.livraria.model.Model;
-import br.com.livraria.util.CreateEntityManager;
 
-public class GenericDao<T> {
+public class GenericDao<T> implements Serializable {
 
-	private final EntityManager em = new CreateEntityManager().getEntityManager();
+	private static final long serialVersionUID = 1L;
+
+	private final EntityManager em;
+	private final Class<T> classe;
+
+	public GenericDao(final EntityManager em, final Class<T> classe) {
+		this.classe = classe;
+		this.em = em;
+	}
 
 	public void adiciona(final Model model) {
 		em.getTransaction().begin();
@@ -18,20 +26,15 @@ public class GenericDao<T> {
 		em.persist(model);
 
 		em.getTransaction().commit();
-
-		em.close();
-
 	}
 
-	public void remove(final Class<T> classe, final Integer id) {
+	public void remove(final Integer id) {
 
 		em.getTransaction().begin();
 
-		em.remove(this.find(classe, id));
+		em.remove(this.find(id));
 
 		em.getTransaction().commit();
-
-		em.close();
 	}
 
 	public void atualiza(final T model) {
@@ -40,34 +43,28 @@ public class GenericDao<T> {
 		em.merge(model);
 
 		em.getTransaction().commit();
-		em.close();
-
 	}
 
-	public Collection<T> listaTodos(final Class<T> model) {
+	public Collection<T> listaTodos() {
 
-		final CriteriaQuery<T> query = em.getCriteriaBuilder().createQuery(model);
+		final CriteriaQuery<T> query = em.getCriteriaBuilder().createQuery(classe);
 
-		query.select(query.from(model));
+		query.select(query.from(classe));
 
 		final Collection<T> lista = em.createQuery(query).getResultList();
-
-		em.close();
 
 		return lista;
 	}
 
-	public T buscaPorId(final Class<T> classe, final Integer id) {
+	public T buscaPorId(final Integer id) {
 
-		final T data = this.find(classe, id);
-
-		em.close();
+		final T data = this.find(id);
 
 		return data;
 
 	}
 
-	private T find(final Class<T> classe, final Integer id) {
+	private T find(final Integer id) {
 		return em.find(classe, id);
 	}
 }

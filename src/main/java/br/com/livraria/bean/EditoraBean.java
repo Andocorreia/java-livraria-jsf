@@ -1,18 +1,27 @@
 package br.com.livraria.bean;
 
-import br.com.livraria.bean.entity.EditoraEntity;
-import br.com.livraria.dao.GenericDao;
-import br.com.livraria.model.EditoraModel;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
+import java.io.Serializable;
 import java.util.Collection;
 
-@ManagedBean
-public class EditoraBean {
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
+import br.com.livraria.bean.entity.EditoraEntity;
+import br.com.livraria.dao.EditoraDao;
+import br.com.livraria.model.EditoraModel;
+
+@Named
+@ViewScoped
+public class EditoraBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private EditoraEntity editoraEntity = new EditoraEntity();
+
+	@Inject
+	private EditoraDao editoraDao;
 
 	public void gravar() {
 
@@ -20,23 +29,22 @@ public class EditoraBean {
 			FacesContext.getCurrentInstance().addMessage(this.editoraEntity.getNome(), new FacesMessage("Erro-Campo Nome Obrigatório"));
 		}
 		else {
-			final GenericDao<EditoraModel> dao = new GenericDao<>();
+
 			final EditoraModel model = new EditoraModel();
 			model.setNome(editoraEntity.getNome());
 			if (editoraEntity.getCodigo() == null) {
-				dao.adiciona(model);
+				editoraDao.adiciona(model);
 			}
 			else {
 				model.setCodigo(editoraEntity.getCodigo());
-				dao.atualiza(model);
+				editoraDao.atualiza(model);
 			}
 			editoraEntity = new EditoraEntity();
 		}
 	}
 
 	public Collection<EditoraModel> getTodasEditoras() {
-		final GenericDao<EditoraModel> dao = new GenericDao<>();
-		return dao.listaTodos(EditoraModel.class);
+		return editoraDao.listaTodos(EditoraModel.class);
 	}
 
 	public EditoraEntity getEditoraEntity() {
@@ -44,7 +52,7 @@ public class EditoraBean {
 	}
 
 	public void remover(final EditoraModel editora) {
-		new GenericDao<EditoraModel>().remove(EditoraModel.class, editora.getCodigo());
+		editoraDao.remove(editora.getCodigo());
 	}
 
 	public void alterar(final EditoraModel editora) {

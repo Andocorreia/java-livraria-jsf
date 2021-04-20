@@ -1,41 +1,51 @@
 package br.com.livraria.bean;
 
-import br.com.livraria.bean.entity.UsuarioEntity;
-import br.com.livraria.dao.GenericDao;
-import br.com.livraria.model.UsuarioModel;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
+import java.io.Serializable;
 import java.util.Collection;
 
-@ManagedBean
-public class UsuarioBean {
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import br.com.livraria.bean.entity.UsuarioEntity;
+import br.com.livraria.dao.UsuarioDao;
+import br.com.livraria.model.UsuarioModel;
+
+@Named
+@ViewScoped
+public class UsuarioBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private UsuarioEntity usuarioEntity = new UsuarioEntity();
 
+	@Inject
+	private UsuarioDao usuarioDao;
+
 	public void gravar() {
 		if (!validacoes()) {
-			final GenericDao<UsuarioModel> dao = new GenericDao<>();
+
 			final UsuarioModel model = new UsuarioModel();
 			model.setEmail(usuarioEntity.getEmail());
 			model.setUsuario(usuarioEntity.getUsuario());
 			model.setSenha(usuarioEntity.getSenha());
 			model.setBloqueado(false);
 			if (this.usuarioEntity.getCodigoUsuario() == null) {
-				dao.adiciona(model);
+				usuarioDao.adiciona(model);
 			}
 			else {
 				model.setCodigo(usuarioEntity.getCodigoUsuario());
-				dao.atualiza(model);
+				usuarioDao.atualiza(model);
 			}
 			usuarioEntity = new UsuarioEntity();
 		}
 	}
 
 	public Collection<UsuarioModel> getTodosUsuarios() {
-		final GenericDao<UsuarioModel> dao = new GenericDao<>();
-		return dao.listaTodos(UsuarioModel.class);
+
+		return usuarioDao.listaTodos(UsuarioModel.class);
 	}
 
 	public UsuarioEntity getUsuarioEntity() {
@@ -43,7 +53,7 @@ public class UsuarioBean {
 	}
 
 	public void remover(final UsuarioModel usuario) {
-		new GenericDao<UsuarioModel>().remove(UsuarioModel.class, usuario.getCodigo());
+		usuarioDao.remove(usuario.getCodigo());
 	}
 
 	public void alterar(final UsuarioModel usuario) {

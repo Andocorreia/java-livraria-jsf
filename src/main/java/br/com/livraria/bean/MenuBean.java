@@ -2,14 +2,20 @@ package br.com.livraria.bean;
 
 import java.io.Serializable;
 
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-@ManagedBean
-public class MenuBean {
+@Named
+@ViewScoped
+public class MenuBean implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private int currentTab;
-	private final FacesContext content = FacesContext.getCurrentInstance();
+
+	@Inject
+	private FacesContext content;
 
 	public int getCurrentTab() {
 		return currentTab;
@@ -19,7 +25,7 @@ public class MenuBean {
 		this.currentTab = currentTab;
 	}
 
-	public String changeActiveTab(int currentTab) {
+	public String changeActiveTab(final int currentTab) {
 		this.currentTab = currentTab;
 		switch (currentTab) {
 			case 0:

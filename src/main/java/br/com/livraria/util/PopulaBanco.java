@@ -1,19 +1,20 @@
 package br.com.livraria.util;
 
-import br.com.livraria.dao.GenericDao;
+import java.io.Serializable;
+
+import br.com.livraria.dao.UsuarioDao;
 import br.com.livraria.model.UsuarioModel;
 
-public class PopulaBanco {
+public class PopulaBanco implements Serializable {
 
 	public static void main(final String[] args) {
 
-		final GenericDao<UsuarioModel> dao = new GenericDao<>();
 		final UsuarioModel usuario = new UsuarioModel();
-		usuario.setUsuario("ADMIN");
-		usuario.setSenha("SENHA");
-		usuario.setEmail("email@email.com.br");
+		usuario.setUsuario("teste");
+		usuario.setSenha("teste");
+		usuario.setEmail("teste@teste.com.br");
 		usuario.setBloqueado(false);
-		dao.adiciona(usuario);
+		new UsuarioDao().adiciona(usuario);
 
 	}
 }

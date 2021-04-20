@@ -1,20 +1,32 @@
 package br.com.livraria.bean;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
+
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.livraria.bean.entity.LoginEntity;
 import br.com.livraria.dao.UsuarioDao;
 
-@ManagedBean
-public class LoginBean {
+@Named
+@ViewScoped
+public class LoginBean implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Inject
+	private FacesContext content;
+
+	@Inject
+	UsuarioDao usuarioDao;
 
 	private LoginEntity loginEntity = new LoginEntity();
-	private final FacesContext content = FacesContext.getCurrentInstance();
 
 	public String logar() {
-		if (new UsuarioDao().login(this.loginEntity.getEmail(), this.loginEntity.getSenha())) {
+		if (usuarioDao.login(this.loginEntity.getEmail(), this.loginEntity.getSenha())) {
 			content.getExternalContext().getSessionMap().put("usuarioLogado", this.loginEntity.getEmail());
 			return "livro?daces-redirect=true";
 		}

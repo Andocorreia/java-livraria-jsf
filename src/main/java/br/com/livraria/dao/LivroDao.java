@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import br.com.livraria.util.Transactional;
 import br.com.livraria.model.LivroModel;
 import br.com.livraria.model.Model;
 
@@ -24,14 +25,17 @@ public class LivroDao implements Serializable {
 		this.dao = new GenericDao<>(this.em, LivroModel.class);
 	}
 
+	@Transactional
 	public void adiciona(final Model model) {
 		dao.adiciona(model);
 	}
 
+	@Transactional
 	public void remove(final Integer id) {
 		dao.remove(id);
 	}
 
+	@Transactional
 	public void atualiza(final LivroModel model) {
 		dao.atualiza(model);
 	}

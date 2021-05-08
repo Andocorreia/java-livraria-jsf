@@ -3,9 +3,11 @@
 ##Stack
 
 - JavaEE 8
-- Servlet
 - Tomcat
+- JSF
 - Maven
+- CDI
+- JPA
 
 ##Banco de Dados
 

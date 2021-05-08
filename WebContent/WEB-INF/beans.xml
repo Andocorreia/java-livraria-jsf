@@ -1,2 +1,5 @@
 <beans>
+    <interceptors>
+        <class>br.com.livraria.util.GerenciadorTransacao</class>
+    </interceptors>
 </beans>

@@ -21,28 +21,15 @@ public class GenericDao<T> implements Serializable {
 	}
 
 	public void adiciona(final Model model) {
-		em.getTransaction().begin();
-
 		em.persist(model);
-
-		em.getTransaction().commit();
 	}
 
 	public void remove(final Integer id) {
-
-		em.getTransaction().begin();
-
 		em.remove(this.find(id));
-
-		em.getTransaction().commit();
 	}
 
 	public void atualiza(final T model) {
-		em.getTransaction().begin();
-
 		em.merge(model);
-
-		em.getTransaction().commit();
 	}
 
 	public Collection<T> listaTodos() {

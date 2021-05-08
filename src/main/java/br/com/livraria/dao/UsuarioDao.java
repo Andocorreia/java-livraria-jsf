@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import br.com.livraria.util.Transactional;
 import br.com.livraria.model.Model;
 import br.com.livraria.model.UsuarioModel;
 
@@ -42,14 +43,17 @@ public class UsuarioDao implements Serializable {
 		return true;
 	}
 
+	@Transactional
 	public void adiciona(final Model model) {
 		dao.adiciona(model);
 	}
 
+	@Transactional
 	public void remove(final Integer id) {
 		dao.remove(id);
 	}
 
+	@Transactional
 	public void atualiza(final UsuarioModel model) {
 		dao.atualiza(model);
 	}

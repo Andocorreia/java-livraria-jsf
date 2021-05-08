@@ -8,7 +8,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,10 +26,10 @@ public class LivroModel implements Model {
 	private Date dataLancamento;
 	private Integer paginas;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	private final Collection<AutorModel> autor = new ArrayList<>();
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	private EditoraModel editora;
 
 	private BigDecimal valorUnitario;
